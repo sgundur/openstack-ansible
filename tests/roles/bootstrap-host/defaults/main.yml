@@ -29,7 +29,7 @@ bootstrap_host_swap_size: "{% if ansible_memory_mb['real']['total'] < 8*1024 %}4
 # The size of the loopback volumes can be customized here (in gigabytes).
 #
 # Boolean option to deploy the loopback disk for Cinder
-bootstrap_host_loopback_cinder: yes
+bootstrap_host_loopback_cinder: no
 # Size of the Cinder loopback disk in gigabytes (GB).
 bootstrap_host_loopback_cinder_size: 1024
 #
@@ -39,7 +39,7 @@ bootstrap_host_loopback_swift: yes
 bootstrap_host_loopback_swift_size: 1024
 #
 # Boolean option to deploy the loopback disk for Nova
-bootstrap_host_loopback_nova: yes
+bootstrap_host_loopback_nova: no
 # Size of the Nova loopback disk in gigabytes (GB).
 bootstrap_host_loopback_nova_size: 1024
 
@@ -83,7 +83,7 @@ bootstrap_host_data_disk_min_size: 60
 # MongoDB is installed on the host in the AIO for Ceilometer and Aodh to use.
 #
 # Boolean value to deploy and configure the MongoDB service on the host.
-bootstrap_host_mongodb_service: yes
+bootstrap_host_mongodb_service: no
 #
 # Boolean value to configure the required MongoDB users
 bootstrap_host_mongodb_users: "{{ bootstrap_host_mongodb_service }}"

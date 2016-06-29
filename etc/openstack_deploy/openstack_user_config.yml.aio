@@ -30,44 +30,12 @@ global_overrides:
         is_container_address: true
         is_ssh_address: true
     - network:
-        container_bridge: "br-vxlan"
-        container_type: "veth"
-        container_interface: "eth10"
-        ip_from_q: "tunnel"
-        type: "vxlan"
-        range: "1:1000"
-        net_name: "vxlan"
-        group_binds:
-          - neutron_linuxbridge_agent
-    - network:
-        container_bridge: "br-vlan"
-        container_type: "veth"
-        container_interface: "eth12"
-        host_bind_override: "eth12"
-        type: "flat"
-        net_name: "flat"
-        group_binds:
-          - neutron_linuxbridge_agent
-    - network:
-        container_bridge: "br-vlan"
-        container_type: "veth"
-        container_interface: "eth11"
-        type: "vlan"
-        range: "1:1"
-        net_name: "vlan"
-        group_binds:
-          - neutron_linuxbridge_agent
-    - network:
         container_bridge: "br-storage"
         container_type: "veth"
         container_interface: "eth2"
         ip_from_q: "storage"
         type: "raw"
         group_binds:
-          - glance_api
-          - cinder_api
-          - cinder_volume
-          - nova_compute
           - swift_proxy
 
 shared-infra_hosts:
@@ -76,13 +44,6 @@ shared-infra_hosts:
     affinity:
       galera_container: 1
       rabbit_mq_container: 1
-    ip: 172.29.236.100
-
-os-infra_hosts:
-  aio1:
-    # Horizon is set to multiple to test clustering. This test only requires x2.
-    affinity:
-      horizon_container: 1
     ip: 172.29.236.100
 
 storage-infra_hosts:
@@ -103,27 +64,7 @@ identity_hosts:
       keystone_container: 1
     ip: 172.29.236.100
 
-compute_hosts:
-  aio1:
-    ip: 172.29.236.100
-
-storage_hosts:
-  aio1:
-    ip: 172.29.236.100
-    container_vars:
-      cinder_backends:
-        limit_container_types: cinder_volume
-        lvm:
-          volume_group: cinder-volumes
-          volume_driver: cinder.volume.drivers.lvm.LVMVolumeDriver
-          volume_backend_name: LVM_iSCSI
-          iscsi_ip_address: "172.29.236.100"
-
 log_hosts:
-  aio1:
-    ip: 172.29.236.100
-
-network_hosts:
   aio1:
     ip: 172.29.236.100
 
