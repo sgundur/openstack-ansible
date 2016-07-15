@@ -27,6 +27,50 @@ goals, then please feel free to reach out to us on the
 `OpenStack Mailing Lists`_ (particularly openstack-operators or openstack-dev)
 or on IRC in ``#openstack-ansible`` on the `freenode network`_.
 
+
+**********************************************************************
+How to install OpenStack - Swift+Keystone services in an AIO using OSA
+**********************************************************************
+        1. # apt-get update
+
+	2. # apt-get upgrade
+
+	3. # reboot
+
+	4. # apt-get install git
+
+        5. # git clone -b swift_only  https://github.com/sgundur/openstack-ansible.git /opt/openstack-ansible
+
+        6. /opt/openstack-ansible# scripts/bootstrap-ansible.sh
+
+        7. /opt/openstack-ansible# scripts/bootstrap-aio.sh
+
+	8. /opt/openstack-ansible/playbooks# openstack-ansible setup-hosts.yml
+
+        9. /opt/openstack-ansible/playbooks# openstack-ansible setup-infrastructure.yml
+
+        10. /opt/openstack-ansible/playbooks# openstack-ansible setup-openstack.yml
+
+
+--------------------------------------
+Changes made, in swift_only git branch
+--------------------------------------
+
+        - In  /opt/openstack-ansible/ansible-role-requirements.yml; deleted all other roles ( except swift , keystone and utilities ) , check in /etc/ansible/roles#
+
+	- In /openstack-ansible/etc/openstack_deploy/openstack_user_config.yml.aio; removed other networks , except br-mgmt and br-storage ; also removed other services from group_binds in br-storage ; kept only swift_proxy, remove other \*_hosts
+
+	- Edited playbooks/setup-openstack.yml
+
+	- Inside the /opt/openstack-ansible/etc/openstack_deploy/env.d ; deleted other \*.yml files
+
+	- Edited /openstack-ansible/tests/roles/bootstrap-host/tasks/prepare_aio_config.yml
+
+	- /openstack-ansible/tests/roles/bootstrap-host/defaults/main.yml ;set cinder and nova , loop back device to false)
+
+        - Edited /openstack-ansible/tests/roles/bootstrap-host/templates/user_variables.aio.yml.j2 ; set swift_ceilometer_enabled: false
+
+
 .. _official OpenStack project: http://governance.openstack.org/reference/projects/index.html
 .. _Home Page: http://governance.openstack.org/reference/projects/openstackansible.html
 .. _Install Guide: http://docs.openstack.org/developer/openstack-ansible/install-guide/index.html
